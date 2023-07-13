@@ -21,14 +21,15 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @EnableMethodSecurity
 public class WebSecurityConfig {
 
-    private final KeycloakLogoutHandler keycloakLogoutHandler;
     private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
+    private final KeycloakLogoutHandler keycloakLogoutHandler;
     private final KeycloakJwtAuthenticationConverter keycloakJwtAuthenticationConverter;
 
-    public WebSecurityConfig(KeycloakLogoutHandler keycloakLogoutHandler
-            , OAuth2ResourceServerProperties oAuth2ResourceServerProperties, KeycloakJwtAuthenticationConverter keycloakJwtAuthenticationConverter) {
-        this.keycloakLogoutHandler = keycloakLogoutHandler;
+    public WebSecurityConfig(OAuth2ResourceServerProperties oAuth2ResourceServerProperties
+            , KeycloakLogoutHandler keycloakLogoutHandler
+            , KeycloakJwtAuthenticationConverter keycloakJwtAuthenticationConverter) {
         this.oAuth2ResourceServerProperties = oAuth2ResourceServerProperties;
+        this.keycloakLogoutHandler = keycloakLogoutHandler;
         this.keycloakJwtAuthenticationConverter = keycloakJwtAuthenticationConverter;
     }
 
@@ -40,7 +41,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeHttpRequests(requests -> requests.requestMatchers("/", "/login")
+        http.authorizeHttpRequests(requests -> requests.requestMatchers("/", "/login", "/error")
                 .permitAll()
                 .anyRequest().fullyAuthenticated()
         )
@@ -52,7 +53,7 @@ public class WebSecurityConfig {
         http.oauth2Login();
         http.logout()
                 .addLogoutHandler(keycloakLogoutHandler)
-                .logoutSuccessUrl("/login")
+                .logoutSuccessUrl("/")
                 .permitAll()
         ;
         //http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

@@ -24,3 +24,8 @@ log:
   com.siukatech.poc: TRACE
 
 
+keycloak:
+  jwt:
+    auth:
+      converter: 1
+      handler: 2
