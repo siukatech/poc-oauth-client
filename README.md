@@ -94,6 +94,14 @@ Need to create the realm and import users manually with exported files
 
 
 
+## Timeout
+### Token timeout
+Select the target realm, goto Realm settings.
+![Token timeout 01](./assets/keycloak-08-token-timeout-01.png)  
+![Token timeout 01](./assets/keycloak-08-token-timeout-02.png)  
+
+
+
 # Postman
 ## Working Offline  
 Click setting and then select `Scratch Pad`  
