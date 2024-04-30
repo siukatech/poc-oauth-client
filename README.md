@@ -44,6 +44,13 @@ https://keycloak.org/server/containers
 
 
 
+## PKCE Setup
+Clients -> Advanced -> Advanced Settings -> Proof Key for Code Exchange Code Challenge Method  
+![PKCE setup 01](./assets/keycloak-09-pkce-01.png)
+![PKCE setup 02](./assets/keycloak-09-pkce-02.png)
+
+
+
 ## Export and Import
 ### Reference
 https://howtodoinjava.com/devops/keycloak-export-import-realm/
@@ -118,6 +125,13 @@ https://www.baeldung.com/postman-keycloak-endpoints
 
 **api:** {{idp-server}}/realms/{{client-realm}}/.well-known/openid-configuration  
 ![Check openid-configuration](./assets/postman-04-openid-configuration-01.png)
+
+
+
+## Authorization Code (with PKCE)
+Authorization -> Grant type  
+Change `Grant type` to use `Authorization Code (with PKCE)`  
+![Authorization Code (with PKCE)](./assets/postman-05-authorization-code-pkce-01.png)
 
 
 
