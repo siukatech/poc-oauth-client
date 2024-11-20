@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
@@ -21,14 +22,15 @@ import java.util.List;
 @Component
 public class KeycloakJwtAuthenticationConverterImpl implements KeycloakJwtAuthenticationConverter {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Override
     public AbstractAuthenticationToken convert(Jwt source) {
-        logger.debug("convert - 1");
+        log.debug("convert - 1");
 //        return new UsernamePasswordAuthenticationToken(userDetails, "NA", convertedAuthorities);
 //        return null;
+        String loginId = source.getClaimAsString(StandardClaimNames.PREFERRED_USERNAME);
+        String tokenValue = source.getTokenValue();
         List<GrantedAuthority> convertedAuthorities = new ArrayList<>();
-        UserDetails userDetails = new User(source.getSubject(), null, convertedAuthorities);
+        UserDetails userDetails = new User(loginId, "null", convertedAuthorities);
         UsernamePasswordAuthenticationToken authenticationToken
                 = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         return authenticationToken;
