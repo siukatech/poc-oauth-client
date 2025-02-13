@@ -51,6 +51,23 @@ Clients -> Advanced -> Advanced Settings -> Proof Key for Code Exchange Code Cha
 
 
 
+## Client scopes for Jwt Audiences
+Add client scopes `openid` with `Mappers` type (`Audience`) for DevOps.  
+- openid
+- Scope for userinfo endpoint
+
+![Client scopes with audience setup 01](./assets/keycloak-10-client-scopes-with-audience-01.png)
+![Client scopes with audience setup 02](./assets/keycloak-10-client-scopes-with-audience-02.png)
+![Client scopes with audience setup 03](./assets/keycloak-10-client-scopes-with-audience-03.png)
+![Client scopes with audience setup 04](./assets/keycloak-10-client-scopes-with-audience-04.png)
+![Client scopes with audience setup 05](./assets/keycloak-10-client-scopes-with-audience-05.png)
+![Client scopes with audience setup 06](./assets/keycloak-10-client-scopes-with-audience-06.png)
+![Client scopes with audience setup 07](./assets/keycloak-10-client-scopes-with-audience-07.png)
+![Client scopes with audience setup 08](./assets/keycloak-10-client-scopes-with-audience-08.png)
+![Client scopes with audience setup 88](./assets/keycloak-10-client-scopes-with-audience-88.png)
+
+
+
 ## Export and Import
 ### Reference
 https://howtodoinjava.com/devops/keycloak-export-import-realm/
@@ -181,3 +198,26 @@ Prepare the following environment variables for bootRun
 ./gradlew bootRun --debug --args='--client-id=oauth-client-01 --client-secret=XXX --client-realm=oauth-client-realm --oauth2.client.keycloak=http://localhost:38180 --spring.profiles.active=dev'
 ```
 
+
+
+# Spring Security Resource Server
+## Validate audiences
+Compare the `Jwt`'s `audiences` with `resource-server`'s audiences in `application.yaml` by using `List.retainAll`.  
+If the list is not empty, that means both audience lists have common value, assuming authorized.  
+```java
+...
+List<String> audList = new ArrayList<>(aud);
+audList.retainAll(oAuth2ResourceServerProperties.getJwt().getAudiences());
+//
+//List<String> list1 = new ArrayList<>(); list1.add("a"); list1.add("b"); list1.add("c"); list1.add("d");
+//List<String> list2 = new ArrayList<>(); list2.add("a"); list2.add("c"); list2.add("x"); list2.add("y");
+//list1.retainAll(list2);
+//log.debug("jwtDecoder - withAudiencesValidator - list1: [{}]", list1);
+//
+// list1.retainAll(list2) will remove the item that does not exist in list2, for example:
+// list1 (a, b, c, d), list2 (a, c, x, y)
+// After the retainAll, list1 becomes list1 (a, c)
+// As a result, (!audList.isEmpty) means Jwt token's audiences (aud) exist in the yaml's audiences
+boolean result = !audList.isEmpty();
+...
+```
