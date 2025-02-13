@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@ConditionalOnProperty(value = "keycloak.jwt.auth.converter", havingValue = "1", matchIfMissing = true)
 @Component
+@ConditionalOnProperty(value = "keycloak.jwt.auth.converter", havingValue = "1", matchIfMissing = true)
 public class KeycloakJwtAuthenticationConverterImpl implements KeycloakJwtAuthenticationConverter {
 
     @Override

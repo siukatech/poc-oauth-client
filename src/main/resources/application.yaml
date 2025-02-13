@@ -19,12 +19,26 @@ spring:
             user-name-attribute: preferred_username
 
       resource-server:
-          jwt:
-            issuer-uri: ${oauth2.client.keycloak}/realms/${client-realm}
-          opaque-token:
-            introspection-uri: ${oauth2.client.keycloak}/realms/${client-realm}/protocol/openid-connect/token/introspect
-            client-id: ${client-id}
-            client-secret: ${client-secret}
+        jwt:
+          issuer-uri: ${oauth2.client.keycloak}/realms/${client-realm}
+          jwk-set-uri: ${oauth2.client.keycloak}/realms/${client-realm}/protocol/openid-connect/certs
+          audiences:
+#            - "${client-id}2"
+            - ${client-id}
+        opaque-token:
+          introspection-uri: ${oauth2.client.keycloak}/realms/${client-realm}/protocol/openid-connect/token/introspect
+          client-id: ${client-id}
+          client-secret: ${client-secret}
+#        jwt:
+#          keycloak:
+#            issuer-uri: ${oauth2.client.keycloak}/realms/${client-realm}
+#            jwk-set-uri: ${oauth2.client.keycloak}/realms/${client-realm}/protocol/openid-connect/certs
+#            audiences: ${client-id}
+#        opaque-token:
+#          keycloak:
+#            introspection-uri: ${oauth2.client.keycloak}/realms/${client-realm}/protocol/openid-connect/token/introspect
+#            client-id: ${client-id}
+#            client-secret: ${client-secret}
 
 logging:
 #  pattern:
@@ -32,6 +46,7 @@ logging:
   level:
     org.springframework.web: TRACE
     com.siukatech.poc: TRACE
+    com.siukatech.poc.oauthclient.security.config: DEBUG
     com.siukatech.poc.oauthclient.security.converter: DEBUG
 
 

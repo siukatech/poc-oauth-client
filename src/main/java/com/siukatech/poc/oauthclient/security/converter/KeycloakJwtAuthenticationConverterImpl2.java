@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@ConditionalOnProperty(value = "keycloak.jwt.auth.converter", havingValue = "2")
 @Component
+@ConditionalOnProperty(value = "keycloak.jwt.auth.converter", havingValue = "2")
 public class KeycloakJwtAuthenticationConverterImpl2 implements KeycloakJwtAuthenticationConverter {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
